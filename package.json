@@ -1,0 +1,27 @@
+{
+  "name": "gulp-env-vars",
+  "version": "1.0.0",
+  "description": "gulp-env-vars",
+  "main": "index.js",
+  "dependencies": {
+    "through2": "^3.0.1"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fulicat/gulp-env-vars.git"
+  },
+  "keywords": [
+    "gulp-env-vars",
+    "gulp env vars",
+    "node env vars",
+    "gulp env",
+    "gulp"
+  ],
+  "author": "Jack.Chan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fulicat/gulp-env-vars/issues"
+  },
+  "homepage": "https://github.com/fulicat/gulp-env-vars#readme"
+}
