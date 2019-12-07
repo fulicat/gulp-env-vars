@@ -7,5 +7,6 @@
 * @version v1.0
 */
 
-
-document.write('<p style="color:red;">current env is: process.env.HELLO <small>build time: process.env.BUILD_TIME</small></p>');
+alert('process.env.HELLO');
+alert('process.env.HELLOX');
+document.write('<p style="color:red;">current env is: {{process.env.HELLO}} <small>build time: process.env.BUILD_TIME</small></p>');

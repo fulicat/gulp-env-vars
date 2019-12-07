@@ -1,5 +1,5 @@
 /*
-* env.config.js
+* env.config.js for test
 * @Author: Jack.Chan (971546@qq.com)
 * @Date:   2019-10-16 14:43:01
 * @Last Modified by:   Jack.Chan

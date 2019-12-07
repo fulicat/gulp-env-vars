@@ -13,7 +13,16 @@
 <meta name="keywords" content="<% = process.env.DOCUMENT_KEYWORDS %>">
 </head>
 <body>
+	<h1>use: &lt;% = process.env.XXX %&gt;</h1>
 	<h1><% = process.env.DOCUMENT_TITLE %></h1>
+	<h2><% = process.env.NOT_FOUND %></h2>
+	<h3><% = undefined %></h3>
+	<hr>
+	<h1>use: {{ process.env.XXX } } / {{ :process.env.XXX }}</h1>
+	<h1>{{ process.env.DOCUMENT_TITLE }}</h1>
+	<h2>{{ process.env.NOT_FOUND }}</h2>
+	<h3>{{ undefined }}</h3>
+	<hr>
 	<h2>current env is: <% = process.env.HELLO %> <small>build time: <%=process.env.BUILD_TIME%></small></h2>
 
 <script type="text/javascript" src="index.js"></script>

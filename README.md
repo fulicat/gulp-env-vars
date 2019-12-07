@@ -10,7 +10,7 @@
 `gulp-env-vars` is available on [npm](http://npmjs.org) or [yarn](https://yarnpkg.com).
 
     $ yarn add gulp-env-vars --dev
-
+    
     $ npm install gulp-env-vars --save-dev
 
 ## Usage
@@ -21,17 +21,17 @@
     const { argv } = require('argvs');
     const gulp = require('gulp');
     const EnvVars = require('gulp-env-vars');
-
-    const ENV_CONFIG = require('./env.config')[argv.conf || 'development'];
-    if (!ENV_CONFIG) {
-      console.log('\n', 'config not found...', '\n');
-      process.exit(0);
+    const conf = require('./env.config')[argv.conf || 'development'];
+    if (!conf) {
+        console.log('\n', 'config not found...', '\n');
+        console.log('-conf：', argv.conf);
+        process.exit(0);
     }
-    console.log('\n', 'current conf:', argv.conf, '\n');
+    console.log('\n', 'current conf:', conf, '\n');
 
     gulp.task('default', function() {
       return gulp.src(['src/**/*.html', 'src/**/*.js'])
-      .pipe(EnvVars(ENV_CONFIG))
+      .pipe(EnvVars(conf))
       .pipe(gulp.dest('dist/'))
     });
 
@@ -83,8 +83,17 @@
   <meta name="keywords" content="<% = process.env.DOCUMENT_KEYWORDS %>">
   </head>
   <body>
-    <h1><% = process.env.DOCUMENT_TITLE %></h1>
-    <h2>current env is: <% = process.env.HELLO %> <small>build time: <%=process.env.BUILD_TIME%></small></h2>
+    <h1>use: <% = process.env.XXX %>;</h1>
+	  <h1><% = process.env.DOCUMENT_TITLE %></h1>
+	  <h2><% = process.env.NOT_FOUND %></h2>
+	  <h3><% = undefined %></h3>
+	  <hr>
+	  <h1>use: {{ process.env.XXX }} / {{ :process.env.XXX }}</h1>
+	  <h1>{{ process.env.DOCUMENT_TITLE }}</h1>
+	  <h2>{{ process.env.NOT_FOUND }}</h2>
+	  <h3>{{ undefined }}</h3>
+	  <hr>
+	  <h2>current env is: <% = process.env.HELLO %> <small>build time: <%=process.env.BUILD_TIME%></small></h2>
   <script type="text/javascript" src="index.js"></script>
   </body>
   </html>
@@ -94,7 +103,9 @@
 ### d. index.js
 
 ```js
-    document.write('<p style="color:red;">current env is: process.env.HELLO <small>build time: process.env.BUILD_TIME</small></p>');
+alert('process.env.HELLO');
+alert('process.env.HELLOX');
+document.write('<p style="color:red;">current env is: process.env.HELLO <small>build time: process.env.BUILD_TIME</small></p>');
 
 ```
 
@@ -103,7 +114,7 @@
 
 (The MIT License)
 
-Copyright (c) 2013 Jake Luer <jake@alogicalparadox.com> (http://alogicalparadox.com)
+Copyright (c) 2013 Jack.Chan <fulicat@qq.com> (http://fulicat.com)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

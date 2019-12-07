@@ -1,7 +1,7 @@
 {
   "name": "test",
-  "version": "1.0.0",
-  "description": "gulp-env-vars test",
+  "version": "1.0.1",
+  "description": "tests for gulp-env-vars",
   "private": true,
   "author": "Jack.Chan",
   "scripts": {
@@ -20,6 +20,7 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "through2": "^3.0.1",
     "argvs": "^1.0.1",
     "gulp": "^4.0.2"
   },
