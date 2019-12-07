@@ -6,7 +6,7 @@
 * @Last Modified by:   Jack.Chan
 * @Last Modified time: 2019-12-08 02:09:55
 * @website http://fulicat.com
-* @version v1.0.1
+* @version v1.0.2
 */
 
 const through2 = require('through2');

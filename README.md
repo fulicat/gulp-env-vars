@@ -39,7 +39,7 @@
 
 
 
-### b. env.conig.js
+### b. env.config.js
 
 ```js
   const DEFAULTS = {
