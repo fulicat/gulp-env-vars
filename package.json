@@ -1,7 +1,7 @@
 {
   "name": "gulp-env-vars",
-  "version": "1.0.3",
-  "description": "gulp-env-vars",
+  "version": "1.0.7",
+  "description": "gulp env vars, include",
   "main": "index.js",
   "dependencies": {
     "through2": "^3.0.1"
@@ -14,6 +14,7 @@
   "keywords": [
     "gulp-env-vars",
     "gulp env vars",
+    "gulp include",
     "node env vars",
     "gulp env",
     "gulp"

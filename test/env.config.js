@@ -11,7 +11,8 @@ const DEFAULTS = {
 	DOCUMENT_TITLE: 'demo: gulp-env-vars',
 	DOCUMENT_DESCRIPTION: 'gulp-env-vars',
 	DOCUMENT_KEYWORDS: 'gulp-env-vars, gulp env vars, gulp, env, vars',
-	BUILD_TIME: (new Date()).toLocaleString('en-US', {hour12: false})
+	BUILD_TIME: (new Date()).toLocaleString('en-US', {hour12: false}),
+	TPL_MODEL: `{{ process.env.include('./src/model.tpl') }}`
 }
 
 module.exports = {

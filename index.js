@@ -4,12 +4,48 @@
 * @Author: Jack.Chan (971546@qq.com)
 * @Date:   2019-10-16 14:39:30
 * @Last Modified by:   Jack.Chan
-* @Last Modified time: 2019-12-08 13:56:29
+* @Last Modified time: 2019-12-09 02:28:55
 * @website http://fulicat.com
-* @version v1.0.3
+* @version v1.0.7
 */
 
+const fs = require('fs');
+const path = require('path');
+const __basepath = process.cwd();
+
 const through2 = require('through2');
+
+const isProcessEnvInclude = function(key) {
+	key = (''+key).toString().replace(/[=|;\s]/g, '');
+	var regexp = /((^:{0,1})process\.env\.include+)/;
+	return regexp.test(key);
+}
+
+const getProcessEnvIncludeSrc = function(key) {
+	var matchs = key.match(/(\:{0,1})process\.env\.include(\([\'\"]?([^\'\"]*)[\'\"]?\))/);
+	if (matchs && matchs.length > 3) {
+		return matchs[3];
+	}
+	return null;
+}
+
+const getProcessEnvIncludeContents = function(src, callback) {
+	let contents = '';
+	if (src && typeof(src) === 'string') {
+		let filePath = path.resolve(__basepath, src);
+		try {
+			contents = fs.readFileSync(filePath, 'utf8');
+		} catch(ex) {
+			console.log('\n', `Warn: process.env.include('${src}')`);
+			console.log('', 'Warn: ENOENT: no such file or directory,');
+			console.log('', `open '${filePath}'`, '\n');
+		}
+	}
+	if (typeof(callback) === 'function') {
+		callback(contents);
+	}
+	return contents;
+}
 
 const isProcessEnvKey = function(key) {
 	key = (''+key).toString().replace(/[=|;\s]/g, '');
@@ -23,26 +59,43 @@ const getProcessEnvKey = function(key) {
 	}
 	return null;
 }
-const parseProcessEnv = function(vars, key, defaultValue) {
-	defaultValue = typeof(defaultValue) === 'undefined' ? '' : defaultValue;
+const parseProcessEnv = function(vars, key, matched) {
+	matched = (matched && typeof(matched) === 'string' ? matched : '');
+	var value = matched;
 	key = (''+key).toString().replace(/[=|;\s]/g, '');
-	if (key.substr(0, 1) !== ':') {
-		if (typeof(vars) === 'object' && key && key.length) {
-			if (isProcessEnvKey(key)) {
-				key = getProcessEnvKey(key);		
-				if (key && key !== null && key !== undefined) {
-					if (defaultValue.substr(0, 2) === '{{' && defaultValue.substr(-2) === '}}') {
-						defaultValue = '';
-					}
-					defaultValue = vars[key] !== undefined ? vars[key] : defaultValue;
+	if (key && key.length > 1 && key.substr(0, 1) !== ':') {
+		
+		if (isProcessEnvInclude(key)) {
+			let src = getProcessEnvIncludeSrc(key);
+			if (src && src.length) {
+				getProcessEnvIncludeContents(src, function(v) {
+					value = v;
+				});
+			}
+		} else if (isProcessEnvKey(key)) {
+			let _key = getProcessEnvKey(key);
+			if (_key && _key.length) {
+				if (typeof(vars) === 'object') {
+					value = vars[_key] !== undefined ? vars[_key] : matched;
 				}
 			}
-		}	
+		} else {
+
+		}
+		if (!value && matched.substr(0, 2) === '{{' && matched.substr(-2) === '}}') {
+			value = '';
+		}
 	}
-	return defaultValue;
+	return value;
 }
 
-module.exports = function(vars) {
+module.exports = function(vars, options) {
+	const defaults = {
+		deepLevel: 3
+	}
+	options = Object.assign({}, defaults, options);
+	options.deepLevel = isNaN(options.deepLevel) ? 3 : parseInt(options.deepLevel);
+
 	const PLUGIN_NAME = 'gulp-env-vars';
 	const typeOf = function(object) {
 		return Object.prototype.toString.call(vars).replace(/\[object (.*)\]/g, '$1').toLowerCase();
@@ -64,19 +117,21 @@ module.exports = function(vars) {
 		}
 		if (file.isBuffer()) {
 			var contents = file.contents.toString('utf-8');
-			contents = contents.replace(/\{\{([^\}]+)\}\}/g, function(match, key) {
-				return parseProcessEnv(vars, key, match);
-			});
-			contents = contents.replace(/<%([^%>]+)?%>/g, function(match, key) {
-				return parseProcessEnv(vars, key, match);
-			});
+			for(var i=0; i<options.deepLevel;i++) {
+				contents = contents.replace(/\{\{([^\}]+)\}\}/g, function(matched, key) {
+					return parseProcessEnv(vars, key, matched);
+				});
+				contents = contents.replace(/<%([^%>]+)?%>/g, function(matched, key) {
+					return parseProcessEnv(vars, key, matched);
+				});
+			}
 			if (file.extname==='.js' || file.extname==='.jsx' || file.extname==='.vue') {
-				contents = contents.replace(/((\:{0,1})process\.env\.[\w]+)/g, function(match, key) {
-					return parseProcessEnv(vars, key, match);
+				contents = contents.replace(/((\:{0,1})process\.env\.[\w]+)/g, function(matched, key) {
+					return parseProcessEnv(vars, key, matched);
 				});	
 			}
-			contents = contents.replace(/((\:{0,1})process\.env\.[\w]+)/g, function(match, key) {
-				return match.replace(/\:process\.env\./g, 'process\.env\.');
+			contents = contents.replace(/((\:{0,1})process\.env\.[\w]+)/g, function(matched, key) {
+				return matched.replace(/\:process\.env\./g, 'process\.env\.');
 			});
 			file.contents = new Buffer.from(contents);
 		}

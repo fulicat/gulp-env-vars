@@ -1,10 +1,11 @@
 {
   "name": "test",
-  "version": "1.0.2",
+  "version": "1.0.5",
   "description": "tests for gulp-env-vars",
   "private": true,
   "author": "Jack.Chan",
   "scripts": {
+    "build": "yarn run gulp --conf=development",
     "build:dev": "yarn run gulp --conf=development",
     "build:test": "yarn run gulp --conf=test",
     "build:prod": "yarn run gulp --conf=production"
