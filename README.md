@@ -68,35 +68,38 @@
 ### c. index.html
 
 ```html
-  <!DOCTYPE html>
-  <html>
-  <head>
-  <meta charset="utf-8">
-  <meta name="renderer" content="webkit">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-  <meta name="format-detection" content="email=no">
-  <meta name="format-detection" content="telephone=no">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title><% = process.env.DOCUMENT_TITLE %></title>
-  <meta name="author" content="Jack.Chan">
-  <meta name="description" content="<% = process.env.DOCUMENT_DESCRIPTION %>">
-  <meta name="keywords" content="<% = process.env.DOCUMENT_KEYWORDS %>">
-  </head>
-  <body>
-    <h1>use: <% = process.env.XXX %>;</h1>
-	  <h1><% = process.env.DOCUMENT_TITLE %></h1>
-	  <h2><% = process.env.NOT_FOUND %></h2>
-	  <h3><% = undefined %></h3>
-	  <hr>
-	  <h1>use: {{ process.env.XXX }} / {{ :process.env.XXX }}</h1>
-	  <h1>{{ process.env.DOCUMENT_TITLE }}</h1>
-	  <h2>{{ process.env.NOT_FOUND }}</h2>
-	  <h3>{{ undefined }}</h3>
-	  <hr>
-	  <h2>current env is: <% = process.env.HELLO %> <small>build time: <%=process.env.BUILD_TIME%></small></h2>
-  <script type="text/javascript" src="index.js"></script>
-  </body>
-  </html>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="format-detection" content="email=no">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title><% = process.env.DOCUMENT_TITLE %></title>
+<meta name="author" content="Jack.Chan">
+<meta name="description" content="<% = process.env.DOCUMENT_DESCRIPTION %>">
+<meta name="keywords" content="<% = process.env.DOCUMENT_KEYWORDS %>">
+</head>
+<body>
+	<h1>use: &lt;% = process.env.XXX %&gt;</h1>
+	<h1 style="color:green;">found: <% = process.env.DOCUMENT_TITLE %></h1>
+	<h2 style="color:gray;">not found: <% = process.env.NOT_FOUND %></h2>
+	<h1 style="color:orange;">raw: <% = :process.env.DOCUMENT_TITLE %></h1>
+	<h3 style="color:red;">unsupported: <% = undefined %></h3>
+	<hr>
+	<h1>use: {{ :process.env.XXX }}</h1>
+	<h1 style="color:green;">found: {{ process.env.DOCUMENT_TITLE }}</h1>
+	<h2 style="color:gray;">not found: {{ process.env.NOT_FOUND }}</h2>
+	<h1 style="color:orange;">raw: {{ :process.env.DOCUMENT_TITLE }}</h1>
+	<h3 style="color:red;">unsupported: {{ undefined }}</h3>
+	<hr>
+	<h2>current env is: <% = process.env.HELLO %> <small>build time: <%=process.env.BUILD_TIME%></small></h2>
+
+<script type="text/javascript" src="index.js"></script>
+</body>
+</html>
 
 ```
 

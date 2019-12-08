@@ -1,6 +1,6 @@
 {
   "name": "gulp-env-vars",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "gulp-env-vars",
   "main": "index.js",
   "dependencies": {

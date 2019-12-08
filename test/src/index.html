@@ -14,14 +14,16 @@
 </head>
 <body>
 	<h1>use: &lt;% = process.env.XXX %&gt;</h1>
-	<h1><% = process.env.DOCUMENT_TITLE %></h1>
-	<h2><% = process.env.NOT_FOUND %></h2>
-	<h3><% = undefined %></h3>
+	<h1 style="color:green;">found: <% = process.env.DOCUMENT_TITLE %></h1>
+	<h2 style="color:gray;">not found: <% = process.env.NOT_FOUND %></h2>
+	<h1 style="color:orange;">raw: <% = ::process.env.DOCUMENT_TITLE %></h1>
+	<h3 style="color:red;">unsupported: <% = undefined %></h3>
 	<hr>
-	<h1>use: {{ process.env.XXX } } / {{ :process.env.XXX }}</h1>
-	<h1>{{ process.env.DOCUMENT_TITLE }}</h1>
-	<h2>{{ process.env.NOT_FOUND }}</h2>
-	<h3>{{ undefined }}</h3>
+	<h1>use: {{ :process.env.XXX }}</h1>
+	<h1 style="color:green;">found: {{ process.env.DOCUMENT_TITLE }}</h1>
+	<h2 style="color:gray;">not found: {{ process.env.NOT_FOUND }}</h2>
+	<h1 style="color:orange;">raw: {{ ::process.env.DOCUMENT_TITLE }}</h1>
+	<h3 style="color:red;">unsupported: {{ undefined }}</h3>
 	<hr>
 	<h2>current env is: <% = process.env.HELLO %> <small>build time: <%=process.env.BUILD_TIME%></small></h2>
 
